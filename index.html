@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساعة مؤقت</title>
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+    <text y='0.9em' font-size='90'>⏱️</text>
+    </svg>">
+
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #2a0362, #753498);
+            margin: 0;
+            padding: 20px;
+
+        }
+
+        h1{
+            color: #e7e7e7;
+            font-size: 100px;
+        }
+
+        .timer{
+            font-size: 5rem;
+            margin: 20px 0;
+        }
+
+        .buttons{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button{
+            padding: 40px 50px;
+            font-size: 3rem;
+            background: #251030;
+            color: aliceblue;
+            border:none;
+            border-radius: 18px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background: #54465c;
+
+        }
+
+        button:disabled{
+            background: #a4a4a4;
+            cursor: not-allowed;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>ساعة مؤقت</h1>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="buttons">
+    <button id="start">ابدأ</button>
+    <button id="stop" disabled>ايقاف</button>
+    <button id="reset" disabled>اعادة</button>
+    </div>
+
+    <script>
+        let timerInterval;
+        let elapsedSeconds = 0;
+
+        const timerDisplay = document.getElementById("timer");
+        const StartBtn = document.getElementById("start");
+        const stopBtn = document.getElementById("stop");
+        const resetBtn = document.getElementById("reset");
+
+        function formatTime(seconds) {
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, "0");
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+            const secs = String(seconds % 60).padStart(2, "0");
+
+            return`${hrs}:${mins}:${secs}`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                timerDisplay.textContent = formatTime(elapsedSeconds);
+
+            }, 1000);
+            
+            stopBtn.disabled= true;
+            stopBtn.disabled = false;
+            resetBtn.disabled = false;
+
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            StartBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+
+        function resetTimer () {
+            clearInterval(timerInterval);
+            elapsedSeconds = 0;
+            timerDisplay.textContent = "00:00:00";
+            StartBtn.disabled = false;
+            stopBtn.disabled = true;
+            resetBtn.disabled = true;
+        }
+
+        StartBtn.addEventListener("click",startTimer);
+        stopBtn.addEventListener("click",stopTimer);
+        resetBtn.addEventListener("click",resetTimer);
+    </script>
+</body>
+</html>
